@@ -61,72 +61,87 @@ SOC_Estimation_ConvLSTM/
 
 ---
 
-## Results and Insights
+## 📊 Results and Insights
 
 ### Overview
-The ConvLSTM model was evaluated for **State of Charge (SOC)** estimation under various temperature conditions: **-10°C, 0°C, 10°C, and 25°C**. The performance metrics and visual results below demonstrate the model's ability to generalize across different operating conditions, achieving significantly lower errors than previous approaches (Temporal CNN and LSTM).
+The **ConvLSTM** model was evaluated for **State of Charge (SOC)** estimation under various temperature conditions: **-10°C, 0°C, 10°C, and 25°C**. The results demonstrate the model's strong performance and improvements over previous approaches. Below, we provide detailed metrics, visualizations, and insights.
 
 ---
 
-### Performance Metrics
+### 🏆 Performance Metrics
 
-| Temperature | Mean Absolute Error (MAE) | Mean Squared Error (MSE) | R² (R-squared) | Root Mean Squared Error (RMSE) | Average Error (%) |
-|-------------|----------------------------|---------------------------|----------------|-------------------------------|-------------------|
-| -10°C       | 0.006861                   | 0.000099                  | 0.998376       | 0.009948                      | 0.6861%          |
-| 0°C         | 0.0064                     | 0.000100                  | 0.998500       | 0.010000                      | 0.64%            |
-| 10°C        | 0.008792                   | 0.000218                  | 0.997099       | 0.014764                      | 0.8792%          |
-| 25°C        | 0.007124                   | 0.000153                  | 0.998181       | 0.012368                      | 0.7124%          |
+| 🌡️ Temperature | 📉 MAE (Mean Absolute Error) | 📊 MSE (Mean Squared Error) | 📈 R² (R-squared) | 🔄 RMSE (Root Mean Squared Error) | 🎯 Average Error (%) |
+|-----------------|------------------------------|-----------------------------|-------------------|-----------------------------------|---------------------|
+| -10°C          | **0.006861**                 | **0.000099**                | **0.998376**      | **0.009948**                      | **0.6861%**         |
+| 0°C            | **0.0064**                   | **0.000100**                | **0.998500**      | **0.010000**                      | **0.64%**           |
+| 10°C           | **0.008792**                 | **0.000218**                | **0.997099**      | **0.014764**                      | **0.8792%**         |
+| 25°C           | **0.007124**                 | **0.000153**                | **0.998181**      | **0.012368**                      | **0.7124%**         |
 
 ---
 
-### Visual Results
+### 📉 Visual Results
 
-#### -10°C
-![SOC at -10°C](results/actual_vs_predicted_soc_at_-10Celsius_plot.png)
+#### 🔍 -10°C (Zoomed-In Instabilities)
+![SOC at -10°C (Zoomed-In)](results/actual_vs_predicted_soc_at_-10Celsius_zoomed_plot.png)
 
-#### 0°C
+#### 🌡️ 0°C
 ![SOC at 0°C](results/actual_vs_predicted_soc_at_0Celsius_plot.png)
 
-#### 10°C
+#### 🌡️ 10°C
 ![SOC at 10°C](results/actual_vs_predicted_soc_at_10Celsius_plot.png)
 
-#### 25°C
+#### 🌡️ 25°C
 ![SOC at 25°C](results/actual_vs_predicted_soc_at_25Celsius_plot.png)
 
 ---
 
-### Key Insights
+### 🔍 Key Insights
 1. **Error Reduction**:
-   - ConvLSTM outperformed previous architectures (Temporal CNN and standalone LSTM), which had an average error rate of **1.4%**.
-   - The ConvLSTM model achieved an **average error of 0.7%** across all temperature conditions, a significant improvement.
+   - The **ConvLSTM** outperformed previous models (**Temporal CNN** and **LSTM**) that had an average error rate of **1.4%**.
+   - The **ConvLSTM** achieved an **average error of 0.7%**, representing a substantial improvement.
 
-2. **Consistency Across Temperatures**:
-   - The model demonstrated exceptional robustness in SOC prediction, maintaining high accuracy across extreme low (-10°C) to moderate (25°C) temperatures.
-   - The lowest error was observed at **0°C**, with an MAE of **0.0064** and R² of **0.9985**.
+2. **Challenges at -10°C**:
+   - **Observation**: At **-10°C**, fluctuations appear during low SOC regions, as shown in the zoomed-in plot.
+   - **Analysis**:
+     - Likely caused by **limited training data** at extreme temperatures.
+     - Sensor noise or inaccuracies at low temperatures might have affected predictions.
+   - **Recommendations**:
+     - Enhance the training dataset with more low-temperature samples.
+     - Explore **temperature-specific fine-tuning** or **data augmentation** for extreme conditions.
 
-3. **Smooth Predictions During Transitions**:
-   - The ConvLSTM model effectively captured the steep SOC transitions during charging and discharging cycles, reducing prediction fluctuations observed in earlier approaches.
+3. **Stability Across Other Temperatures**:
+   - The model exhibited consistent accuracy at **0°C, 10°C, and 25°C**, ensuring smooth SOC predictions during charging/discharging cycles.
 
-4. **Generalization**:
-   - The model’s ability to generalize well across unseen test data highlights its suitability for deployment in real-world **Battery Management Systems (BMS)**.
+4. **Hybrid Architecture Advantage**:
+   - Combines **spatial feature extraction** (via convolutional layers) with **temporal learning** (via LSTMs) to address complex SOC dynamics.
 
 ---
 
-### Why ConvLSTM?
+### 💡 Why ConvLSTM?
 
-#### Previous Models:
-- **Temporal CNN**: Effective at capturing local temporal features but struggled with long-term dependencies.
-- **LSTM**: Captured temporal dependencies but lacked the capability to extract spatial features effectively.
+#### 🚀 Previous Models:
+- **Temporal CNN**: Efficient for local temporal features but struggled with long-term dependencies.
+- **LSTM**: Good at capturing temporal dependencies but lacked spatial feature extraction capabilities.
 
-#### ConvLSTM Advantages:
-1. **Hybrid Architecture**:
-   - Combines Convolutional layers (spatial feature extraction) with LSTM (temporal modeling) for a holistic understanding of SOC dynamics.
-2. **Improved Accuracy**:
-   - The ConvLSTM achieved the lowest error metrics across all tested conditions.
-3. **Robustness**:
-   - Reliable performance across varying temperatures ensures applicability in diverse real-world conditions.
-4. **Smooth Temporal Predictions**:
-   - The architecture excels in minimizing fluctuations during rapid SOC transitions.
+#### 🔄 ConvLSTM Advantages:
+1. **Hybrid Design**:
+   - Integrates **Convolutional layers** for spatial features and **LSTM** for temporal learning.
+2. **Enhanced Accuracy**:
+   - Achieves the lowest error metrics among tested architectures.
+3. **Robust Performance**:
+   - Reliable results across diverse operating conditions.
+4. **Reduced Noise**:
+   - Superior at minimizing fluctuations during rapid SOC transitions.
+
+---
+
+### ✅ Conclusion
+The **ConvLSTM** architecture proves to be a reliable and accurate solution for **SOC estimation**. Its ability to generalize across unseen data and maintain high performance under varying temperature conditions makes it a suitable candidate for real-world **Battery Management Systems**.
+
+<p align="center">
+  <img src="https://img.icons8.com/dusk/64/checkmark.png" alt="success" width="50">
+  <b>ConvLSTM: Pushing the boundaries of SOC estimation accuracy! 🚀</b>
+</p>
 
 ---
 
