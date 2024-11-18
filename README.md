@@ -117,6 +117,42 @@ The **ConvLSTM** model was evaluated for **State of Charge (SOC)** estimation un
 
 ---
 
+### 🔍 Residual Analysis Across Temperatures
+
+Residual plots for SOC estimation reveal the performance of the ConvLSTM model across different temperatures:
+
+#### 📊 Observations:
+1. **-10°C:**
+   - Residuals show high variability and larger deviations.
+   - Indicates model struggles due to non-linear battery behavior in extreme cold.
+
+2. **0°C:**
+   - Moderate fluctuations, with residuals mostly centered around 0.
+   - Some spikes indicate occasional prediction errors.
+
+3. **10°C:**
+   - Stable residuals with minor deviations, showing consistent model performance.
+   - Rare outliers are observed but do not affect overall accuracy.
+
+4. **25°C:**
+   - Residuals are the most stable with minimal fluctuations.
+   - Best performance, reflecting predictable battery behavior at standard conditions.
+
+#### ⚡ Insights:
+- **Best Performance:** At moderate temperatures (10°C and 25°C), residuals are minimal, highlighting model robustness.
+- **Challenges:** At -10°C, higher variability suggests a need for improved handling of extreme conditions.
+
+#### 📉 Residual Plots:
+![Residual Analysis Across Temperatures](results/residual_analysis_plot.png)
+
+#### 🔧 Next Steps:
+- Incorporate temperature-specific features or data augmentation for extreme conditions.
+- Analyze outliers to further enhance model performance.
+
+This analysis emphasizes the need for temperature-aware optimization to ensure reliable SOC predictions under diverse operating conditions.
+
+---
+
 ### 💡 Why ConvLSTM?
 
 #### 🚀 Previous Models:
