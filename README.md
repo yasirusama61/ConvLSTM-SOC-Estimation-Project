@@ -18,15 +18,15 @@ Accurate SOC estimation is critical for optimizing battery performance, lifespan
 
 ## 📂 Project Structure
 SOC_Estimation_ConvLSTM/
-├── data/                      # Input datasets
-├── models/                    # Trained models
-├── notebooks/                 # Jupyter notebooks
-├── scripts/                   # Python scripts
-├── results/                   # Saved plots and metrics
-├── README.md                  # Project description
-├── requirements.txt           # Dependencies
-├── LICENSE                    # License information
-└── .gitignore                 # Ignored files and folders
+   ├── data/                      # Input datasets
+   ├── models/                    # Trained models
+   ├── notebooks/                 # Jupyter notebooks
+   ├── scripts/                   # Python scripts
+   ├── results/                   # Saved plots and metrics
+   ├── README.md                  # Project description
+   ├── requirements.txt           # Dependencies
+   ├── LICENSE                    # License information
+   └── .gitignore                 # Ignored files and folders
 
 ---
 
