@@ -16,17 +16,53 @@ Accurate SOC estimation is critical for optimizing battery performance, lifespan
 
 ---
 
-## 📂 Project Structure
-SOC_Estimation_ConvLSTM/
-   ├── data/                      # Input datasets
-   ├── models/                    # Trained models
-   ├── notebooks/                 # Jupyter notebooks
-   ├── scripts/                   # Python scripts
-   ├── results/                   # Saved plots and metrics
-   ├── README.md                  # Project description
-   ├── requirements.txt           # Dependencies
-   ├── LICENSE                    # License information
-   └── .gitignore                 # Ignored files and folders
+# 📂 Project Structure
+
+The **SOC Estimation using ConvLSTM** project is organized as follows:
+
+- **`data/`**  
+  - Contains the input datasets for training, validation, and testing.
+  - Organized into subfolders:
+    - `train/` - Training datasets.
+    - `validation/` - Validation datasets.
+    - `test/` - Test datasets.
+
+- **`models/`**  
+  - Stores trained model files and checkpoints.
+  - Example:
+    - `convolstm_model.keras` - Best ConvLSTM model.
+
+- **`notebooks/`**  
+  - Includes Jupyter notebooks for exploratory data analysis and prototyping.
+  - Example:
+    - `data_analysis.ipynb` - Dataset exploration and preprocessing.
+    - `training.ipynb` - Model training and evaluation workflow.
+
+- **`scripts/`**  
+  - Contains Python scripts for reproducibility.
+  - Example:
+    - `train.py` - Script for training the ConvLSTM model.
+    - `evaluate.py` - Script for model evaluation and metrics calculation.
+    - `plot_results.py` - Script for generating plots.
+
+- **`results/`**  
+  - Saved plots and metrics for analysis.
+  - Organized into subfolders:
+    - `training_loss.png` - Training and validation loss plot.
+    - `residual_analysis/` - Residual plots across different temperatures.
+    - `soc_predictions/` - SOC prediction plots for various temperature conditions.
+
+- **`README.md`**  
+  - Contains the project documentation, including descriptions, results, and insights.
+
+- **`requirements.txt`**  
+  - Lists all the dependencies required for running the project.
+
+- **`LICENSE`**  
+  - Contains license information for the project.
+
+- **`.gitignore`**  
+  - Specifies files and folders to be ignored by Git.
 
 ---
 
