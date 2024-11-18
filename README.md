@@ -61,6 +61,30 @@ SOC_Estimation_ConvLSTM/
 
 ---
 
+## 📉 Training Loss Analysis
+
+The training and validation loss plot provides critical insights into the model's learning behavior during the training process.
+
+![Training Loss Plot](results/training_plot.png)
+
+### Observations:
+1. **Initial High Loss:** 
+   - The training loss starts at a relatively high value, reflecting the initial randomness of the model weights.
+   - The validation loss decreases rapidly in the initial epochs, indicating the model is learning useful patterns.
+
+2. **Smooth Decrease in Training Loss:** 
+   - The training loss steadily decreases as the epochs progress, demonstrating the model's ability to optimize its parameters effectively.
+
+3. **Validation Loss Stability:**
+   - The validation loss stabilizes after approximately 10 epochs, with minor fluctuations, indicating that the model is reaching a point of generalization.
+
+4. **Overfitting Risk:**
+   - In the later epochs (20–25), the validation loss begins to increase slightly, while the training loss continues to decrease. This may suggest early signs of overfitting.
+
+### Conclusion:
+The training plot highlights the efficiency of the ConvLSTM architecture in learning temporal and spatial dependencies for SOC estimation. However, early stopping and regularization strategies are critical to avoid overfitting and improve generalization on unseen data.
+
+
 ## 📊 Results and Insights
 
 ### Overview
