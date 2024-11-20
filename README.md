@@ -8,11 +8,21 @@ This repository implements a **ConvLSTM-based model** for **State of Charge (SOC
 
 Accurate SOC estimation is critical for optimizing battery performance, lifespan, and safety. While traditional **Temporal CNNs** and **LSTMs** were successful in modeling battery data, we wanted to explore whether a **hybrid architecture like ConvLSTM** could further improve prediction accuracy.
 
-### Why ConvLSTM?
-- **Temporal Dependency**: LSTM layers capture long-term dependencies in sequential data.
-- **Spatial Features**: Convolutional layers effectively extract spatial features.
-- **Hybrid Approach**: ConvLSTM combines both, making it ideal for capturing intricate relationships in battery data.
-- **Performance**: With an average **Mean Absolute Error (MAE)** of ~0.0073 across varying temperatures, ConvLSTM outperforms standalone architectures like Temporal CNN and LSTM.
+### 💡 Why ConvLSTM?
+
+#### 🚀 Previous Models:
+- **Temporal CNN**: Efficient for local temporal features but struggled with long-term dependencies.
+- **LSTM**: Good at capturing temporal dependencies but lacked spatial feature extraction capabilities.
+
+#### 🔄 ConvLSTM Advantages:
+1. **Hybrid Design**:
+   - Integrates **Convolutional layers** for spatial features and **LSTM** for temporal learning.
+2. **Enhanced Accuracy**:
+   - Achieves the lowest error metrics among tested architectures.
+3. **Robust Performance**:
+   - Reliable results across diverse operating conditions.
+4. **Reduced Noise**:
+   - Superior at minimizing fluctuations during rapid SOC transitions.
 
 ---
 
@@ -211,23 +221,19 @@ Residual plots for SOC estimation reveal the performance of the ConvLSTM model a
 
 This analysis emphasizes the need for temperature-aware optimization to ensure reliable SOC predictions under diverse operating conditions.
 
----
+### Training Curve
+The training and validation loss over 40 epochs are shown below:
 
-### 💡 Why ConvLSTM?
+![Bayesian CNN Training Curve](results/bayesian_cnn_training_curve.png)
 
-#### 🚀 Previous Models:
-- **Temporal CNN**: Efficient for local temporal features but struggled with long-term dependencies.
-- **LSTM**: Good at capturing temporal dependencies but lacked spatial feature extraction capabilities.
+#### Key Observations:
+1. **Rapid Convergence**: The training loss dropped steeply during the initial epochs, indicating effective learning.
+2. **Stabilization**: Both training and validation loss stabilized after ~10 epochs, demonstrating a well-trained model.
+3. **Generalization**: The small gap between training and validation loss highlights robust generalization to unseen data.
 
-#### 🔄 ConvLSTM Advantages:
-1. **Hybrid Design**:
-   - Integrates **Convolutional layers** for spatial features and **LSTM** for temporal learning.
-2. **Enhanced Accuracy**:
-   - Achieves the lowest error metrics among tested architectures.
-3. **Robust Performance**:
-   - Reliable results across diverse operating conditions.
-4. **Reduced Noise**:
-   - Superior at minimizing fluctuations during rapid SOC transitions.
+> **Note**: The use of Bayesian CNN ensures confidence in SOC predictions by quantifying uncertainties, which can further improve safety and decision-making in real-world applications.
+
+Would you like to include more details, such as evaluation metrics or uncertainty examples, in this section?
 
 ---
 
