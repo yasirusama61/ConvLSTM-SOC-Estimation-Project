@@ -1,6 +1,17 @@
 # 🔋 SOC Estimation using ConvLSTM
 
-This repository implements a **ConvLSTM-based model** for **State of Charge (SOC) Estimation** in Lithium-ion batteries. ConvLSTM combines the strengths of convolutional and LSTM architectures to model both spatial and temporal dependencies, achieving highly accurate SOC predictions.
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.8-blue" alt="Python">
+  <img src="https://img.shields.io/badge/tensorflow-2.x-orange" alt="TensorFlow">
+  <img src="https://img.shields.io/badge/status-In_Progress-yellow" alt="Status">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+  <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen" alt="Contributions">
+</p>
+
+---
+
+This repository implements a **ConvLSTM-based model** for **State of Charge (SOC) Estimation** in Lithium-ion batteries.  
+ConvLSTM combines the strengths of convolutional and LSTM architectures to model both spatial and temporal dependencies, achieving **highly accurate SOC predictions**.
 
 ---
 
@@ -72,7 +83,9 @@ The **SOC Estimation using ConvLSTM** project is organized as follows:
   State of Charge (SOC).  
 
 ### 🔄 Input Sequence Preparation
-- Input sequences were first prepared with a sliding window approach to capture temporal dependencies. 
+- Input sequences were created using a **sliding window approach** to capture temporal dependencies. 
+- **Window Size**:  
+  Each sequence consists of **100 time steps** to effectively learn SOC trends.  
 - **Shape Transformation**:  
   After preprocessing, the sequences were reshaped into **ConvLSTM-compatible format**:  
   `(samples, time steps, rows, cols, channels)`.
