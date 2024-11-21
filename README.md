@@ -224,7 +224,7 @@ This analysis emphasizes the need for temperature-aware optimization to ensure r
 ### Training Curve
 The training and validation loss over 40 epochs are shown below:
 
-![Bayesian CNN Training Curve](results/bayesian_cnn_training_curve.png)
+![Training Curve](results/training_plot.png)
 
 #### Key Observations:
 1. **Rapid Convergence**: The training loss dropped steeply during the initial epochs, indicating effective learning.
