@@ -280,17 +280,17 @@ The visual results and metrics highlight its strength in minimizing errors and a
    pip install -r requirements.txt
    ```
 ### 3. Prepare the Data
-    Place your input data in the data/ directory following the project structure.
+   Place your input data in the data/ directory following the project structure.
 
 ### 4. Train the Model
-    Run the training script to train the ConvLSTM model on your dataset:
-      ```bash
-      python scripts/train_model.py
-      ```
+   Run the training script to train the ConvLSTM model on your dataset:
+   ```bash
+   python scripts/train_model.py
+   ```
 ### 5. Evaluate and Visualize
-    Evaluate the trained model on test datasets and generate residual plots for analysis:
-      ```bash
-      python scripts/evaluate_model.py
-      ```
+   Evaluate the trained model on test datasets and generate residual plots for analysis:
+   ```bash
+   python scripts/evaluate_model.py
+   ```
 ### 6. View Results
-    Find saved plots and metrics in the results/ directory for a detailed performance overview.
+   Find saved plots and metrics in the results/ directory for a detailed performance overview.
