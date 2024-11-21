@@ -1,0 +1,40 @@
+# Ignore Python bytecode and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore model checkpoints
+models/*.h5
+models/*.keras
+
+# Ignore dataset files
+data/
+*.csv
+*.mat
+
+# Ignore results and plot images
+results/*.png
+results/*.html
+
+# Ignore notebook checkpoints
+notebooks/.ipynb_checkpoints/
+
+# Ignore virtual environment
+env/
+venv/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE configurations
+.vscode/
+.idea/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore dependency caches
+*.egg-info/
+*.eggs/
