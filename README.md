@@ -30,23 +30,10 @@ Accurate SOC estimation is critical for optimizing battery performance, lifespan
 
 The **SOC Estimation using ConvLSTM** project is organized as follows:
 
-- **`data/`**  
-  - Contains the input datasets for training, validation, and testing.
-  - Organized into subfolders:
-    - `train/` - Training datasets.
-    - `validation/` - Validation datasets.
-    - `test/` - Test datasets.
-
 - **`models/`**  
   - Stores trained model files and checkpoints.
   - Example:
     - `convolstm_model.keras` - Best ConvLSTM model.
-
-- **`notebooks/`**  
-  - Includes Jupyter notebooks for exploratory data analysis and prototyping.
-  - Example:
-    - `data_analysis.ipynb` - Dataset exploration and preprocessing.
-    - `training.ipynb` - Model training and evaluation workflow.
 
 - **`scripts/`**  
   - Contains Python scripts for reproducibility.
