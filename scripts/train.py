@@ -1,165 +1,120 @@
 """
-Script for training a ConvLSTM model for State of Charge (SOC) estimation.
-This script loads preprocessed battery dataset, defines a ConvLSTM-based hybrid architecture, 
-and trains the model to predict SOC values.
+train.py
 
-Key Features:
-- **Data Preparation**: Prepares sequential data for ConvLSTM input format.
-- **Model Architecture**: Combines convolutional and LSTM layers to capture spatial and temporal features.
-- **Training**: Implements callbacks for early stopping, learning rate reduction, and model checkpointing.
-- **Evaluation**: Tracks loss and Mean Absolute Error (MAE) during training.
+This script trains a ConvLSTM-based model for State of Charge (SOC) estimation in Lithium-ion batteries.
+The ConvLSTM architecture captures spatio-temporal dependencies in SOC data, offering enhanced accuracy.
+The script includes data loading, sequence creation, model training, and evaluation.
 
-Requirements:
-- TensorFlow/Keras
-- NumPy
-- Matplotlib
+Author: Usama Yasir Khan
+Date: 2024-11-19
 """
 
 import os
 import numpy as np
+import pandas as pd
+import scipy.io
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import ConvLSTM2D, Dense, Dropout, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
-# --- Hyperparameters ---
-BATCH_SIZE = 32
-EPOCHS = 50
-LEARNING_RATE = 0.001
-TIME_STEPS = 20  # Sequence length
-FEATURES = 5     # Number of input features
-VALIDATION_SPLIT = 0.2
-MODEL_PATH = 'models/convlstm_model.h5'
+# Ensure necessary directories exist
+os.makedirs("models", exist_ok=True)
+os.makedirs("results", exist_ok=True)
 
-# --- Data Preparation ---
-def load_data(file_path, input_columns, target_column):
-    """
-    Load the dataset and split into features and target.
-    
-    Args:
-        file_path (str): Path to the dataset file.
-        input_columns (list): List of feature column names.
-        target_column (str): Name of the target column.
+# Function to load .mat file and return input and target DataFrames
+def load_mat_file(file_path, input_columns, target_column):
+    mat_file = scipy.io.loadmat(file_path)
+    X = mat_file['X'].T
+    Y = mat_file['Y'].T
+    df_X = pd.DataFrame(X, columns=input_columns)
+    df_Y = pd.DataFrame(Y, columns=[target_column])
+    return pd.concat([df_X, df_Y], axis=1)
 
-    Returns:
-        X (numpy array): Feature data.
-        y (numpy array): Target data.
-    """
-    data = np.load(file_path, allow_pickle=True)
-    X = data[input_columns]
-    y = data[target_column]
-    return np.array(X), np.array(y)
+# Function to create sequences from the data
+def create_sequences(X, y, timesteps):
+    X_seq, y_seq = [], []
+    for i in range(len(X) - timesteps):
+        X_seq.append(X[i:i + timesteps])
+        y_seq.append(y[i + timesteps])
+    return np.array(X_seq), np.array(y_seq)
 
-def reshape_data(X, y):
-    """
-    Reshape data for ConvLSTM input format.
-    
-    Args:
-        X (numpy array): Feature data.
-        y (numpy array): Target data.
-
-    Returns:
-        X_reshaped (numpy array): Reshaped feature data.
-        y (numpy array): Target data (unchanged).
-    """
-    X_reshaped = X.reshape((X.shape[0], TIME_STEPS, 1, 1, FEATURES))
-    return X_reshaped, y
-
-# Load dataset
-print("Loading data...")
-data_path = 'data/training_data.npz'  # Replace with dataset path
-input_columns = ['Voltage', 'Current', 'Temperature', 'SOC Rolling', 'Current Rolling']
+# Load and preprocess data
+train_file = 'TRAIN_LGHG2@n10degC_to_25degC_Norm_5Inputs.mat'
+validation_file = '01_TEST_LGHG2@n10degC_Norm_(05_Inputs).mat'
+input_columns = ['Voltage', 'Current', 'Temperature', 'Avg_voltage', 'Avg_current']
 target_column = 'SOC'
 
-X, y = load_data(data_path, input_columns, target_column)
-X, y = reshape_data(X, y)
+# Load training and validation data
+df_train = load_mat_file(train_file, input_columns, target_column)
+df_val = load_mat_file(validation_file, input_columns, target_column)
 
-# Train-validation split
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=VALIDATION_SPLIT, random_state=42)
+# Split data into features and target
+X_train, y_train = df_train[input_columns], df_train[target_column]
+X_val, y_val = df_val[input_columns], df_val[target_column]
 
-print(f"X_train shape: {X_train.shape}, y_train shape: {y_train.shape}")
-print(f"X_val shape: {X_val.shape}, y_val shape: {y_val.shape}")
+# Define timesteps for sequence creation
+timesteps = 100
 
-# --- Model Definition ---
-def build_convlstm_model():
-    """
-    Define the ConvLSTM model for SOC estimation.
+# Create sequences for training and validation
+X_train_seq, y_train_seq = create_sequences(X_train.values, y_train.values, timesteps)
+X_val_seq, y_val_seq = create_sequences(X_val.values, y_val.values, timesteps)
 
-    Returns:
-        model (Sequential): Compiled ConvLSTM model.
-    """
-    model = Sequential()
-    model.add(ConvLSTM2D(
-        filters=64,
-        kernel_size=(1, 1),
-        input_shape=(TIME_STEPS, 1, 1, FEATURES),
-        activation='relu',
-        return_sequences=False
-    ))
-    model.add(Flatten())
-    model.add(Dense(64, activation='relu', kernel_regularizer='l2'))
-    model.add(Dropout(0.3))
-    model.add(Dense(32, activation='relu', kernel_regularizer='l2'))
-    model.add(Dropout(0.3))
-    model.add(Dense(1, activation='linear'))  # Output SOC value
-    return model
+# Reshape data for ConvLSTM2D
+X_train_conv = X_train_seq.reshape((X_train_seq.shape[0], X_train_seq.shape[1], 1, 1, X_train_seq.shape[2]))
+X_val_conv = X_val_seq.reshape((X_val_seq.shape[0], X_val_seq.shape[1], 1, 1, X_val_seq.shape[2]))
 
-# Build and compile the model
-model = build_convlstm_model()
-model.compile(optimizer=Adam(learning_rate=LEARNING_RATE), loss='mse', metrics=['mae'])
+# Build the ConvLSTM model with Global Average Pooling
+model = Sequential()
 
-# --- Callbacks ---
-early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=1e-6)
-checkpoint = ModelCheckpoint(MODEL_PATH, monitor='val_loss', save_best_only=True)
+# ConvLSTM layer for spatio-temporal feature extraction
+model.add(ConvLSTM2D(filters=32, kernel_size=(1, 2), activation='relu',
+                     input_shape=(X_train_conv.shape[1], 1, 1, X_train_conv.shape[4]),
+                     return_sequences=True, padding='same'))
 
-# --- Training ---
-print("Starting training...")
+# Dropout for regularization
+model.add(Dropout(0.3))
+
+# Global Average Pooling layer for dimensionality reduction and robustness
+model.add(tf.keras.layers.GlobalAveragePooling3D())
+
+# Dense layer for SOC prediction
+model.add(Dense(1, activation='sigmoid'))  # Use 'linear' for non-normalized SOC values
+
+# Compile the model
+model.compile(optimizer=Adam(learning_rate=0.001), loss='mse')
+
+# Print the model summary
+model.summary()
+
+# Define callbacks
+early_stopping = EarlyStopping(monitor='val_loss', patience=15, restore_best_weights=True)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0.0001)
+model_checkpoint = ModelCheckpoint('models/convolstm_model.keras', save_best_only=True, monitor='val_loss', mode='min')
+
+# Train the model
 history = model.fit(
-    X_train, y_train,
-    validation_data=(X_val, y_val),
-    epochs=EPOCHS,
-    batch_size=BATCH_SIZE,
-    callbacks=[early_stopping, reduce_lr, checkpoint],
-    verbose=1
+    X_train_conv, y_train_seq,
+    validation_data=(X_val_conv, y_val_seq),
+    epochs=100,
+    batch_size=72,
+    callbacks=[early_stopping, reduce_lr, model_checkpoint]
 )
 
-# --- Plot Training History ---
+# Plot training history
 def plot_training_history(history):
-    """
-    Plot the training and validation loss and MAE.
-
-    Args:
-        history: Keras History object containing training metrics.
-    """
-    plt.figure(figsize=(12, 5))
-
-    # Loss plot
-    plt.subplot(1, 2, 1)
-    plt.plot(history.history['loss'], label='Train Loss')
-    plt.plot(history.history['val_loss'], label='Val Loss')
-    plt.title('Loss')
-    plt.xlabel('Epochs')
+    plt.figure(figsize=(10, 6))
+    plt.plot(history.history['loss'], label='Training Loss')
+    plt.plot(history.history['val_loss'], label='Validation Loss')
+    plt.title('Model Loss During Training')
+    plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
-
-    # MAE plot
-    plt.subplot(1, 2, 2)
-    plt.plot(history.history['mae'], label='Train MAE')
-    plt.plot(history.history['val_mae'], label='Val MAE')
-    plt.title('Mean Absolute Error (MAE)')
-    plt.xlabel('Epochs')
-    plt.ylabel('MAE')
-    plt.legend()
-
-    plt.tight_layout()
-    plt.savefig('results/training_history.png')
+    plt.grid(True)
+    plt.savefig("results/training_loss.png")
     plt.show()
 
-# Plot training history
 plot_training_history(history)
-
-print("Training completed. Best model saved at:", MODEL_PATH)
