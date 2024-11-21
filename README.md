@@ -245,12 +245,8 @@ The **ConvLSTM** model demonstrated significant improvements in predicting the *
 
 ---
 
-### 📈 Visualization
-Error residuals for each temperature are plotted to showcase the error distribution and consistency across samples.
-
-![Error Residuals by Temperature](images/error_residuals_temperature.png)
-
-This detailed error analysis demonstrates ConvLSTM's capability to deliver accurate and reliable SOC predictions, even under varying temperature conditions.
+### 🛠️ **Is This Error Acceptable?**
+The observed maximum error of **6.73%** is within acceptable limits for SOC estimation in most applications. Accurate SOC prediction is critical for maintaining battery performance and safety, and this level of precision ensures reliable system operation. However, further optimization at extreme temperatures (e.g., -10°C) can improve robustness, particularly for high-performance or safety-critical use cases.
 
 ---
 
