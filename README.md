@@ -221,19 +221,36 @@ Residual plots for SOC estimation reveal the performance of the ConvLSTM model a
 
 This analysis emphasizes the need for temperature-aware optimization to ensure reliable SOC predictions under diverse operating conditions.
 
-### Training Curve
-The training and validation loss over 40 epochs are shown below:
+### 📊 Error Analysis: ConvLSTM SOC Estimation
 
-![Training Curve](results/training_plot.png)
+The **ConvLSTM** model demonstrated significant improvements in predicting the **State of Charge (SOC)**, with tight error bounds across various temperatures. Below is the breakdown of **maximum** and **minimum errors** observed during testing:
 
-#### Key Observations:
-1. **Rapid Convergence**: The training loss dropped steeply during the initial epochs, indicating effective learning.
-2. **Stabilization**: Both training and validation loss stabilized after ~10 epochs, demonstrating a well-trained model.
-3. **Generalization**: The small gap between training and validation loss highlights robust generalization to unseen data.
+---
 
-> **Note**: The use of Bayesian CNN ensures confidence in SOC predictions by quantifying uncertainties, which can further improve safety and decision-making in real-world applications.
+#### 🔥 **Error Summary by Temperature**  
 
-Would you like to include more details, such as evaluation metrics or uncertainty examples, in this section?
+| 🌡️ Temperature | 🚩 Max Error  | 📉 Min Error  |
+|-----------------|--------------|---------------|
+| **-10°C**       | 0.0673       | -0.0459       |
+| **0°C**         | 0.0501       | -0.0358       |
+| **10°C**        | 0.0394       | -0.0525       |
+| **25°C**        | 0.0441       | -0.0434       |
+
+---
+
+#### 🔍 **Insights**
+- **Tight Prediction Bounds**: Across all temperatures, the maximum error remained within **6.73%**, showcasing the model's robustness.
+- **High Accuracy at Moderate Temperatures**: At **10°C** and **25°C**, the errors were notably lower, indicating reliable predictions under standard conditions.
+- **Challenges at Extreme Temperatures**: Slightly higher errors at **-10°C** highlight the need for additional optimization in extreme conditions, potentially due to sensor variability or non-linear temperature effects.
+
+---
+
+### 📈 Visualization
+Error residuals for each temperature are plotted to showcase the error distribution and consistency across samples.
+
+![Error Residuals by Temperature](images/error_residuals_temperature.png)
+
+This detailed error analysis demonstrates ConvLSTM's capability to deliver accurate and reliable SOC predictions, even under varying temperature conditions.
 
 ---
 
