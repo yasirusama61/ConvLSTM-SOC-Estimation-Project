@@ -94,29 +94,33 @@ The **SOC Estimation using ConvLSTM** project is organized as follows:
 
 ### 🧠 Updated ConvLSTM Model Architecture
 
-| **Layer**                  | **Description**                                                                 |
-|-----------------------------|---------------------------------------------------------------------------------|
-| **Input Layer**             | Accepts sequences in the shape `(samples, time steps, rows, cols, channels)`.  |
-| **ConvLSTM Layer**          | Extracts spatio-temporal dependencies.  
-  - **Filters**: 64  
-  - **Kernel Size**: (1, 3)  
-  - **Activation**: ReLU  
-  - **Padding**: Same  
-  - **Regularization**: L2 (0.001). |
-| **Global Average Pooling**  | Reduces feature map dimensions, aggregates global information for stability.   |
-| **Dense Layer 1**           | Fully connected layer with:  
-  - **Units**: 64  
-  - **Activation**: ReLU  
-  - **Regularization**: L2 (0.001). |
-| **Dropout Layer 1**         | Dropout to prevent overfitting: **Rate**: 0.3.                                |
-| **Dense Layer 2**           | Fully connected layer with:  
-  - **Units**: 32  
-  - **Activation**: ReLU  
-  - **Regularization**: L2 (0.001). |
-| **Dropout Layer 2**         | Dropout to prevent overfitting: **Rate**: 0.3.                                |
-| **Output Layer**            | Final prediction layer:  
-  - **Units**: 1  
-  - **Activation**: Sigmoid (SOC prediction). |
+The ConvLSTM model architecture combines convolutional layers and LSTM layers for capturing **spatio-temporal dependencies**, followed by **global average pooling** for dimensionality reduction. Here’s a breakdown of the model:
+
+#### **Model Layers**:
+
+| **Layer Name**            | **Description**                                                                                      |
+|---------------------------|-----------------------------------------------------------------------------------------------------|
+| **Input Layer**           | Accepts sequences in the shape `(samples, time steps, rows, cols, channels)`.                       |
+| **ConvLSTM Layer**        | Extracts spatio-temporal dependencies:                                                              |
+|                           | - **Filters**: 64                                                                                  |
+|                           | - **Kernel Size**: (1, 3)                                                                           |
+|                           | - **Activation**: ReLU                                                                              |
+|                           | - **Padding**: Same                                                                                 |
+|                           | - **Regularization**: L2 (0.001)                                                                    |
+| **Global Average Pooling**| Aggregates global information from feature maps for improved stability and reduced dimensionality.   |
+| **Dense Layer 1**         | Fully connected layer:                                                                              |
+|                           | - **Units**: 64                                                                                     |
+|                           | - **Activation**: ReLU                                                                              |
+|                           | - **Regularization**: L2 (0.001)                                                                    |
+| **Dropout Layer 1**       | Applies dropout to reduce overfitting: **Rate**: 0.3.                                               |
+| **Dense Layer 2**         | Fully connected layer:                                                                              |
+|                           | - **Units**: 32                                                                                     |
+|                           | - **Activation**: ReLU                                                                              |
+|                           | - **Regularization**: L2 (0.001)                                                                    |
+| **Dropout Layer 2**       | Applies dropout to reduce overfitting: **Rate**: 0.3.                                               |
+| **Output Layer**          | Final prediction layer:                                                                             |
+|                           | - **Units**: 1                                                                                      |
+|                           | - **Activation**: Sigmoid (for SOC predictions normalized between 0 and 1).                         |
 
 ---
 
