@@ -251,7 +251,8 @@ The observed maximum error of **6.73%** is within acceptable limits for SOC esti
 ---
 
 ### ✅ Conclusion
-The **ConvLSTM** architecture proves to be a reliable and accurate solution for **SOC estimation**. Its ability to generalize across unseen data and maintain high performance under varying temperature conditions makes it a suitable candidate for real-world **Battery Management Systems**.
+
+The **ConvLSTM** architecture has demonstrated its potential as a reliable and accurate solution for **SOC estimation**, achieving consistent performance across various temperature conditions. Its hybrid nature combines the strengths of **LSTMs** for temporal dependencies and **CNNs** for spatial feature extraction, enabling it to outperform standalone Temporal CNN and LSTM models. 
 
 <p align="center">
   <img src="https://img.icons8.com/dusk/64/checkmark.png" alt="success" width="50">
@@ -260,9 +261,24 @@ The **ConvLSTM** architecture proves to be a reliable and accurate solution for 
 
 ---
 
-The ConvLSTM model is a robust and accurate solution for **SOC estimation**, achieving consistent and superior performance compared to Temporal CNN and standalone LSTM architectures. Its ability to handle complex spatial and temporal dependencies, coupled with its generalization across temperature variations, makes it a strong candidate for deployment in real-world battery management applications.
+### 🌟 **Benefits**:
+- **Improved Accuracy**: With an average error of **0.7%**, ConvLSTM sets a new benchmark for SOC estimation models.
+- **Generalization**: Handles varying temperature conditions effectively, making it robust for real-world deployment.
+- **Hybrid Design**: Combines temporal and spatial feature extraction, improving prediction smoothness and reliability.
 
-The visual results and metrics highlight its strength in minimizing errors and achieving smooth SOC predictions, with an average error of **0.7%** across all conditions.
+---
+
+### ⚠️ **Challenges and Weaknesses**:
+- **Extreme Temperatures**: While robust at moderate temperatures, performance slightly declines under extreme conditions like **-10°C**, where fluctuations are more noticeable.
+- **Computational Overhead**: ConvLSTM models are computationally heavier compared to simpler architectures, requiring optimized deployment strategies like quantization.
+- **Hyperparameter Tuning**: Fine-tuning the architecture (e.g., kernel size, dropout rates) required significant effort to achieve the best results.
+- **Edge Deployment**: While quantization and latency testing helped, deploying on low-resource devices posed challenges due to the model's complexity.
+
+---
+
+Despite these challenges, the **ConvLSTM model** proves to be a strong candidate for deployment in **Battery Management Systems**, offering a promising balance of accuracy, robustness, and real-world applicability. Future improvements could focus on optimizing performance at extreme temperatures and reducing computational demands for edge applications.
+
+The results affirm the capability of ConvLSTM to deliver accurate, reliable, and actionable insights for next-generation battery systems.
 
 ---
 
