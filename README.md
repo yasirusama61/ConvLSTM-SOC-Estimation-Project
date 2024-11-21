@@ -297,3 +297,17 @@ The results affirm the capability of ConvLSTM to deliver accurate, reliable, and
    ```
 ### 6. View Results
    Find saved plots and metrics in the results/ directory for a detailed performance overview.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software as per the terms of the license.
+
+**Key Points of the MIT License:**
+- Permission to use, copy, modify, and distribute the software for personal and commercial purposes.
+- No warranty is provided, and the software is provided "as is."
+
+For more details, refer to the [LICENSE](LICENSE) file included in this repository.
+
+---
