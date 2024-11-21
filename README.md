@@ -65,32 +65,57 @@ The **SOC Estimation using ConvLSTM** project is organized as follows:
 
 ## 🏗️ Model Architecture
 
-### Input Data:
-- **Sequence Features**: Voltage, Current, Temperature, SOC Rolling Average, Current Rolling Average.
-- **Target**: State of Charge (SOC).
+### 🚀 Input Data
+- **Sequence Features**:  
+  Voltage, Current, Temperature, SOC Rolling Average, Current Rolling Average.  
+- **Target**:  
+  State of Charge (SOC).  
 
-### ConvLSTM Model:
-1. **Input Layer**:
-   - Accepts sequences in the shape `(samples, time steps, rows, cols, channels)`.
+### 🔄 Input Sequence Preparation
+- Input sequences were first prepared with a sliding window approach to capture temporal dependencies. 
+- **Shape Transformation**:  
+  After preprocessing, the sequences were reshaped into **ConvLSTM-compatible format**:  
+  `(samples, time steps, rows, cols, channels)`.
 
-2. **ConvLSTM Layer**:
-   - Extracts spatio-temporal features.
+---
 
-3. **Dense Layers**:
-   - **Dense Layer 1**:
-     - Units: 64, Activation: ReLU, Regularization: L2.
-   - **Dropout Layer 1**: Rate: 0.3.
-   - **Dense Layer 2**:
-     - Units: 32, Activation: ReLU, Regularization: L2.
-   - **Dropout Layer 2**: Rate: 0.3.
+### 🧠 Updated ConvLSTM Model Architecture
 
-4. **Output Layer**:
-   - Units: 1, Activation: Linear (SOC prediction).
+| **Layer**                  | **Description**                                                                 |
+|-----------------------------|---------------------------------------------------------------------------------|
+| **Input Layer**             | Accepts sequences in the shape `(samples, time steps, rows, cols, channels)`.  |
+| **ConvLSTM Layer**          | Extracts spatio-temporal dependencies.  
+  - **Filters**: 64  
+  - **Kernel Size**: (1, 3)  
+  - **Activation**: ReLU  
+  - **Padding**: Same  
+  - **Regularization**: L2 (0.001). |
+| **Global Average Pooling**  | Reduces feature map dimensions, aggregates global information for stability.   |
+| **Dense Layer 1**           | Fully connected layer with:  
+  - **Units**: 64  
+  - **Activation**: ReLU  
+  - **Regularization**: L2 (0.001). |
+| **Dropout Layer 1**         | Dropout to prevent overfitting: **Rate**: 0.3.                                |
+| **Dense Layer 2**           | Fully connected layer with:  
+  - **Units**: 32  
+  - **Activation**: ReLU  
+  - **Regularization**: L2 (0.001). |
+| **Dropout Layer 2**         | Dropout to prevent overfitting: **Rate**: 0.3.                                |
+| **Output Layer**            | Final prediction layer:  
+  - **Units**: 1  
+  - **Activation**: Sigmoid (SOC prediction). |
 
-### Model Compilation:
-- **Loss**: Mean Squared Error (MSE).
-- **Optimizer**: Adam with learning rate `0.001`.
-- **Metrics**: MAE, R².
+---
+
+### 🛠️ Model Compilation
+- **Loss Function**: Mean Squared Error (MSE).  
+- **Optimizer**: Adam with a learning rate of **0.001**.  
+- **Metrics**:  
+  - Mean Absolute Error (MAE).  
+  - R² (Coefficient of Determination).  
+  - RMSE (Root Mean Squared Error).
+
+This enhanced architecture, coupled with temperature-specific features and robust regularization, has significantly reduced prediction errors and improved the model's generalization across varying temperature conditions.
 
 ---
 
